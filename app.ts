@@ -1,3 +1,7 @@
+import { Customer } from './classes/Customer.js'
+import { Enployee } from './classes/Enployee.js'
+import { Servicer } from './classes/Servicer.js'
+import { Numbers,Strings } from './classes/sp.js'
 // // function add(a: number, b: number) {
 // //     let c = a + b;
 // //     console.log(c)
@@ -92,7 +96,7 @@ class student extends init {//extends实现类的继承
         return `${this.name}dsdsds0`
     }
 }
-var s = new student('jack')
+var s = new student('jack----')
 console.log(s.play())
 //静态方法 static
 /**
@@ -113,26 +117,80 @@ class Press {
         return `${this.name} saa ${this.age}`
     }
     static play(): void {
-        console.log('ewewew' + this.mar)
+        console.log('ewewew---' + this.mar)
     }
 }
 Press.play()
 console.log(Press.mar)
 // var p = new Press()
 /**多态 */
-class Animal{
-    name:string;
-    constructor(name:string){
+class Animal {
+    name: string;
+    constructor(name: string) {
         this.name = name;
     }
-    maskound():void{};
+    maskound(): void { };
 }
-class Bog extends Animal{
-   constructor (name:string){
-       super(name);
-   }
-   maskound():void{
-       console.log('哈哈！');
-   }
+class Bog extends Animal {
+    constructor(name: string) {
+        super(name);
+    }
+    maskound(): void {
+        console.log('哈哈0！3');
+    }
 }
+
+// -------------------==
+/**
+ * 
+ */
+class minClass<T> {
+    list: T[] = [];
+    add(num: T) {
+        this.list.push(num)
+    }
+    min(): T {
+        var minNum = this.list[0];
+        for (let i = 0; i < this.list.length; i++) {
+            if (minNum > this.list[i]) {
+                minNum = this.list[i]
+            }
+        }
+        return minNum
+    }
+}
+var dbc = new minClass<string>();
+dbc.add('a')
+dbc.add('t')
+console.log(dbc.min())
+// ---------------------
+
+let serverice: Servicer<Customer> = new Servicer();
+let cust = new Customer();
+cust.id = 2;
+cust.name = 'hhsb';
+cust.type = 'dsdsd';
+console.log(serverice.sevObj(cust));
+
+let serviceEmp: Servicer<Enployee> = new Servicer();
+let mep = new Enployee();
+mep.id = 2;
+mep.name = 'Ofdf';
+mep.code = '001';
+console.log(serviceEmp.sevObj(mep))
+/**
+ * 命名空间
+ * 由 namespace 函数名{}  来区分，主意：里面函数必须要 export  向外部暴露 才可以调用
+ * 如果命名空间需要模块化，必须 export namespace 外部暴露
+ */
+
+console.log(Numbers.add(2, 3))
+console.log(Strings.add('2', '3'))
+/**
+ * 修饰器
+ */
+
+
+
+
 

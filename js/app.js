@@ -1,17 +1,7 @@
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import { Customer } from './classes/Customer.js';
+import { Enployee } from './classes/Enployee.js';
+import { Servicer } from './classes/Servicer.js';
+import { Numbers, Strings } from './classes/sp.js';
 // // function add(a: number, b: number) {
 // //     let c = a + b;
 // //     console.log(c)
@@ -46,28 +36,23 @@ var __extends = (this && this.__extends) || (function () {
 // var out = show<string>('hello')
 // console.log(out)
 function get(name, age) {
-    return "\u540D\u5B57" + name + ",\u5E74\u9F84" + age;
+    return `名字${name},年龄${age}`;
 }
 console.log(get('sb', 36));
-var getinfo = function (name, age) {
-    if (age === void 0) { age = 96; }
+var getinfo = function (name, age = 96) {
     if (age === undefined) {
-        return "\u540D\u5B57" + name;
+        return `名字${name}`;
     }
     else {
-        return "\u540D\u5B57" + name + ",\u5E74\u9F84" + age;
+        return `名字${name},年龄${age}`;
     }
 };
 console.log(getinfo('sb'));
-function sb(a, b, c) {
-    var args = [];
-    for (var _i = 3; _i < arguments.length; _i++) {
-        args[_i - 3] = arguments[_i];
-    }
+function sb(a, b, c, ...args) {
     function abc(num1, num) {
         return num1 + num;
     }
-    var total = args.reduce(abc);
+    let total = args.reduce(abc);
     return a + b + c + total;
 }
 console.log(sb(1, 2, 9, 9, 6, 3, 9, 8, 5, 2, 4));
@@ -75,21 +60,20 @@ console.log(sb(1, 2, 9, 9, 6, 3, 9, 8, 5, 2, 4));
 // function getuser(name:string):string{
 // }
 //es5原型链继承：实例化以后的子类是没有办法给父类传参
-var init = /** @class */ (function () {
-    function init(n) {
+class init {
+    constructor(n) {
         this.name = n;
     }
-    init.prototype.getName = function () {
+    getName() {
         return this.name;
-    };
-    init.prototype.setName = function (name) {
+    }
+    setName(name) {
         this.name = name;
-    };
-    init.prototype.play = function () {
-        return this.name + "89522";
-    };
-    return init;
-}());
+    }
+    play() {
+        return `${this.name}89522`;
+    }
+}
 var p = new init('dwe');
 console.log(p.getName());
 p.setName('哈哈');
@@ -102,17 +86,15 @@ console.log(p.getName());
 3、private    私有、在当前类里面可以访问、子类、类的外部都没办法访问
 
 */
-var student = /** @class */ (function (_super) {
-    __extends(student, _super);
-    function student(name) {
-        return _super.call(this, name) || this; //初始化父类的构造函数
+class student extends init {
+    constructor(name) {
+        super(name); //初始化父类的构造函数
     }
-    student.prototype.play = function () {
-        return this.name + "dsdsds0";
-    };
-    return student;
-}(init));
-var s = new student('jack');
+    play() {
+        return `${this.name}dsdsds0`;
+    }
+}
+var s = new student('jack----');
 console.log(s.play());
 //静态方法 static
 /**
@@ -121,39 +103,83 @@ console.log(s.play());
  * 类。静态属性  -> 调用
  * 类。静态方法  -> 调用
  */
-var Press = /** @class */ (function () {
-    function Press(name, age) {
+class Press {
+    constructor(name, age) {
         this.name = name;
         this.age = age;
     }
-    Press.prototype.work = function () {
-        return this.name + " saa " + this.age;
-    };
-    Press.play = function () {
-        console.log('ewewew' + this.mar);
-    };
-    Press.mar = true;
-    return Press;
-}());
+    work() {
+        return `${this.name} saa ${this.age}`;
+    }
+    static play() {
+        console.log('ewewew---' + this.mar);
+    }
+}
+Press.mar = true;
 Press.play();
 console.log(Press.mar);
 // var p = new Press()
 /**多态 */
-var Animal = /** @class */ (function () {
-    function Animal(name) {
+class Animal {
+    constructor(name) {
         this.name = name;
     }
-    Animal.prototype.maskound = function () { };
+    maskound() { }
     ;
-    return Animal;
-}());
-var Bog = /** @class */ (function (_super) {
-    __extends(Bog, _super);
-    function Bog(name) {
-        return _super.call(this, name) || this;
+}
+class Bog extends Animal {
+    constructor(name) {
+        super(name);
     }
-    Bog.prototype.maskound = function () {
-        console.log('哈哈！');
-    };
-    return Bog;
-}(Animal));
+    maskound() {
+        console.log('哈哈0！3');
+    }
+}
+// -------------------==
+/**
+ *
+ */
+class minClass {
+    constructor() {
+        this.list = [];
+    }
+    add(num) {
+        this.list.push(num);
+    }
+    min() {
+        var minNum = this.list[0];
+        for (let i = 0; i < this.list.length; i++) {
+            if (minNum > this.list[i]) {
+                minNum = this.list[i];
+            }
+        }
+        return minNum;
+    }
+}
+var dbc = new minClass();
+dbc.add('a');
+dbc.add('t');
+console.log(dbc.min());
+// ---------------------
+let serverice = new Servicer();
+let cust = new Customer();
+cust.id = 2;
+cust.name = 'hhsb';
+cust.type = 'dsdsd';
+console.log(serverice.sevObj(cust));
+let serviceEmp = new Servicer();
+let mep = new Enployee();
+mep.id = 2;
+mep.name = 'Ofdf';
+mep.code = '001';
+console.log(serviceEmp.sevObj(mep));
+/**
+ * 命名空间
+ * 由 namespace 函数名{}  来区分，主意：里面函数必须要 export  向外部暴露 才可以调用
+ * 如果命名空间需要模块化，必须 export namespace 外部暴露
+ */
+console.log(Numbers.add(2, 3));
+console.log(Strings.add('2', '3'));
+/**
+ * 修饰器
+ */
