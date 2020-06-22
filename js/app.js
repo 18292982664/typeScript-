@@ -1,3 +1,9 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 import { Customer } from './classes/Customer.js';
 import { Enployee } from './classes/Enployee.js';
 import { Servicer } from './classes/Servicer.js';
@@ -179,7 +185,39 @@ console.log(serviceEmp.sevObj(mep));
  * 如果命名空间需要模块化，必须 export namespace 外部暴露
  */
 console.log(Numbers.add(2, 3));
-console.log(Strings.add('2', '3'));
+console.log(Strings.add('2', '36'));
 /**
- * 修饰器
+ * 类修饰器
+ */
+function logClass(target) {
+    return class extends target {
+        getData() {
+            this.apiUrl = '添加' + this.apiUrl;
+            console.log(this.apiUrl);
+        }
+    };
+}
+function logProperty(params) {
+    return function (target, propertyKey) {
+        target[propertyKey] = params;
+    };
+}
+let httpClient = class httpClient {
+    constructor() {
+        this.apiUrl = '我查查';
+    }
+    getData() {
+        console.log(this.apiUrl);
+    }
+};
+__decorate([
+    logProperty('ssasasasasa')
+], httpClient.prototype, "apiUrl", void 0);
+httpClient = __decorate([
+    logClass
+], httpClient);
+let http = new httpClient();
+console.log(http.apiUrl);
+/**
+ * 方法修饰器
  */

@@ -1,7 +1,7 @@
 import { Customer } from './classes/Customer.js'
 import { Enployee } from './classes/Enployee.js'
 import { Servicer } from './classes/Servicer.js'
-import { Numbers,Strings } from './classes/sp.js'
+import { Numbers, Strings } from './classes/sp.js'
 // // function add(a: number, b: number) {
 // //     let c = a + b;
 // //     console.log(c)
@@ -185,9 +185,39 @@ console.log(serviceEmp.sevObj(mep))
  */
 
 console.log(Numbers.add(2, 3))
-console.log(Strings.add('2', '3'))
+console.log(Strings.add('2', '36'))
 /**
- * 修饰器
+ * 类修饰器
+ */
+function logClass(target: any) {
+    return class extends target {
+        apiUrl: any;
+        getData() {
+            this.apiUrl = '添加' + this.apiUrl;
+            console.log(this.apiUrl)
+        }
+    }
+}
+function logProperty(params: any) {
+    return function (target: any, propertyKey: any) {
+        target[propertyKey] = params
+    }
+}
+@logClass
+class httpClient {
+    @logProperty('ssasasasasa')
+    public apiUrl: string | undefined;
+    constructor() {
+        this.apiUrl = '我查查';
+    }
+    getData() {
+        console.log(this.apiUrl);
+    }
+}
+let http: any = new httpClient();
+console.log(http.apiUrl);
+/**
+ * 方法修饰器
  */
 
 
